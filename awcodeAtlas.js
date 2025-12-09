@@ -27,11 +27,13 @@ mongoose.connect(MONGODB_ATLAS_URI, { useNewUrlParser: true, useUnifiedTopology:
 
 
 // Define a schema for the items in the to-do list, consisting of a single field 'name'
+// Each Item (task in a To Do List) will have only one field (a string)
 const itemsSchema = {
     name: String
 };
 
 // Create a Mongoose model for items using the defined schema
+// Mongoose uses a Model to read and write elements with a clear Schema
 const Item = mongoose.model("Item", itemsSchema);
 
 // Instantiate default items to populate the to-do list initially
@@ -70,6 +72,7 @@ app.get("/", async (req, res) => {
 });
 
 // Handle GET requests for custom list names. This allows users to create and view custom lists
+// async is the "promise" this anonymous function will use asynchroniciy
 app.get("/:customListName", async (req, res) => {
     // Capitalize the custom list name to maintain consistent naming convention
     const customListName = _.capitalize(req.params.customListName);

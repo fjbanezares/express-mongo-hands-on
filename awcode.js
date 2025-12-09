@@ -24,7 +24,7 @@ const itemsSchema = {
     name: String
 };
 
-// Create a Mongoose model for items using the defined schema
+// Create a Mongoose MODEL for items using the defined schema
 const Item = mongoose.model("Item", itemsSchema);
 
 // Instantiate default items to populate the to-do list initially
@@ -39,7 +39,7 @@ const listSchema = {
     items: [itemsSchema]
 };
 
-// Create a model for custom lists using the defined schema
+// Create a MODEL for custom lists using the defined schema
 const List = mongoose.model("List", listSchema);
 
 // Handle GET requests to the home route "/" which displays the default to-do list
