@@ -172,7 +172,7 @@ Cada proveedor de nube implementa sus propios servicios gestionados para resolve
 ### ¿Y qué ocurre en plataformas ligeras como Render, Railway o Fly.io?
 En plataformas PaaS ligeras, **toda esta complejidad está integrada de forma transparente**:
 * Al crear un *Web Service* en Render o Railway, la plataforma provisiona automáticamente un balanceador de carga inverso, gestiona la renovación automática de certificados HTTPS con Let's Encrypt y asigna una URL pública (`https://tu-app.onrender.com`).
-* Para proyectos formativos y MVPs, esta abstracción permite centrarse en el código de [`awcodeAtlas.js`](./awcodeAtlas.js) sin tener que configurar reglas complejas de enrutamiento de red.
+* Para proyectos formativos y MVPs, esta abstracción permite centrarse en el código de [`awcodeAtlas.js`](../awcodeAtlas.js) sin tener que configurar reglas complejas de enrutamiento de red.
 
 ---
 

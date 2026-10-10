@@ -14,7 +14,7 @@
 
 ## 1. Introducción: El Alma del Repositorio
 
-El archivo [**`awcodeAtlas.js`**](./awcodeAtlas.js) constituye el núcleo pedagógico de este repositorio. Representa el salto evolutivo desde una práctica académica clásica de To-Do List que guardaba tareas en un array volátil en memoria (`let items = []`), hacia una solución completa y profesional de arquitectura cliente-servidor conectada a un clúster en la nube con **MongoDB Atlas**.
+El archivo [**`awcodeAtlas.js`**](../awcodeAtlas.js) constituye el núcleo pedagógico de este repositorio. Representa el salto evolutivo desde una práctica académica clásica de To-Do List que guardaba tareas en un array volátil en memoria (`let items = []`), hacia una solución completa y profesional de arquitectura cliente-servidor conectada a un clúster en la nube con **MongoDB Atlas**.
 
 A través de apenas 165 líneas de JavaScript moderno con `async/await`, esta práctica implementa:
 1. Conexión segura a un clúster distribuido en la nube.
@@ -28,7 +28,7 @@ A través de apenas 165 líneas de JavaScript moderno con `async/await`, esta pr
 
 ## 2. Anatomía del Código Paso a Paso
 
-Examinemos la arquitectura del fichero [**`awcodeAtlas.js`**](./awcodeAtlas.js) dividido en sus fases de ejecución:
+Examinemos la arquitectura del fichero [**`awcodeAtlas.js`**](../awcodeAtlas.js) dividido en sus fases de ejecución:
 
 ### Paso 1: Importación de Dependencias
 ```javascript
@@ -70,8 +70,8 @@ Petición entrante ──▶ [ express.static("public") ] ──▶ Archivo enco
                       [ Rutas de Negocio: GET / POST ] ──▶ res.render("list", ...)
 ```
 
-* `app.set('view engine', 'ejs')`: Le indica a Express que busque archivos con extensión `.ejs` en el directorio [**`views/`**](./views/).
-* `app.use(express.static("public"))`: Expone la carpeta [**`public/`**](./public/) para servir hojas de estilo (`css/styles.css`), iconos e imágenes estáticas sin pasar por la lógica de renderizado.
+* `app.set('view engine', 'ejs')`: Le indica a Express que busque archivos con extensión `.ejs` en el directorio [**`views/`**](../views/).
+* `app.use(express.static("public"))`: Expone la carpeta [**`public/`**](../public/) para servir hojas de estilo (`css/styles.css`), iconos e imágenes estáticas sin pasar por la lógica de renderizado.
 
 ---
 
@@ -90,7 +90,7 @@ mongoose.connect(MONGODB_ATLAS_URI, {
 > [!CAUTION]
 > **Seguridad Crítica:**  
 > Jamás debemos dejar usuarios y contraseñas reales hardcodeados en el código que se versiona con Git.  
-> La buena práctica profesional consiste en extraer la URI a una variable de entorno (`process.env.MONGODB_ATLAS_URI`), declarar un archivo local `.env` y asegurar que `.env` esté listado explícitamente en [**`.gitignore`**](./.gitignore).
+> La buena práctica profesional consiste en extraer la URI a una variable de entorno (`process.env.MONGODB_ATLAS_URI`), declarar un archivo local `.env` y asegurar que `.env` esté listado explícitamente en [**`.gitignore`**](../.gitignore).
 
 #### Desglose de los parámetros de la URI de Atlas:
 * `mongodb+srv://`: Protocolo de servicio DNS (*SRV record*) que descubre automáticamente la topología y los nodos del clúster sin tener que listar cada IP individualmente.
@@ -105,7 +105,7 @@ mongoose.connect(MONGODB_ATLAS_URI, {
 
 ## 3. Modelado de Datos: Documentos Independientes vs Subdocumentos Embebidos
 
-Uno de los aspectos más ricos y didácticos de [**`awcodeAtlas.js`**](./awcodeAtlas.js) es que enseña **dos estrategias distintas de modelado NoSQL** en el mismo ejercicio:
+Uno de los aspectos más ricos y didácticos de [**`awcodeAtlas.js`**](../awcodeAtlas.js) es que enseña **dos estrategias distintas de modelado NoSQL** en el mismo ejercicio:
 
 ```javascript
 // 1. Esquema y Modelo para Tareas Individuales
