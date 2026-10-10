@@ -1,0 +1,44 @@
+<svg width="800" height="400" xmlns="http://www.w3.org/2000/svg">
+    <!-- Background -->
+    <rect width="100%" height="100%" fill="#f9f9f9"/>
+
+    <!-- JS Object (Left) -->
+    <g transform="translate(50, 100)">
+        <rect x="0" y="0" width="200" height="200" rx="10" fill="#f7df1e" stroke="#333" stroke-width="2"/>
+        <text x="100" y="30" font-family="monospace" font-size="16" font-weight="bold" text-anchor="middle" fill="#333">JS Object</text>
+        <rect x="20" y="50" width="160" height="130" fill="#fff" stroke="#333" stroke-width="1"/>
+        <text x="30" y="80" font-family="monospace" font-size="12" fill="#333">{</text>
+        <text x="40" y="100" font-family="monospace" font-size="12" fill="#333">  title: "Movie",</text>
+        <text x="40" y="120" font-family="monospace" font-size="12" fill="#333">  year: 2024</text>
+        <text x="30" y="140" font-family="monospace" font-size="12" fill="#333">}</text>
+    </g>
+
+    <!-- Arrow 1 -->
+    <defs>
+        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+        </marker>
+    </defs>
+    <line x1="260" y1="200" x2="340" y2="200" stroke="#333" stroke-width="4" marker-end="url(#arrowhead)"/>
+
+    <!-- Mongoose (Middle) -->
+    <g transform="translate(350, 100)">
+        <circle cx="100" cy="100" r="80" fill="#880000" stroke="#333" stroke-width="2"/>
+        <text x="100" y="105" font-family="Arial" font-size="24" font-weight="bold" text-anchor="middle" fill="#fff">Mongoose</text>
+        <text x="100" y="130" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">(ODM)</text>
+    </g>
+
+    <!-- Arrow 2 -->
+    <line x1="520" y1="200" x2="600" y2="200" stroke="#333" stroke-width="4" marker-end="url(#arrowhead)"/>
+
+    <!-- MongoDB Document (Right) -->
+    <g transform="translate(610, 100)">
+        <path d="M0,20 Q100,-20 200,20 L200,180 Q100,220 0,180 Z" fill="#4db33d" stroke="#333" stroke-width="2"/>
+        <text x="100" y="60" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="#fff">MongoDB Document</text>
+        <rect x="30" y="80" width="140" height="80" fill="#fff" stroke="#333" stroke-width="1"/>
+        <text x="40" y="110" font-family="monospace" font-size="12" fill="#333">{</text>
+        <text x="50" y="130" font-family="monospace" font-size="12" fill="#333">  "_id": "...",</text>
+        <text x="50" y="150" font-family="monospace" font-size="12" fill="#333">  "title": "Movie"</text>
+        <text x="40" y="170" font-family="monospace" font-size="12" fill="#333">}</text>
+    </g>
+</svg>

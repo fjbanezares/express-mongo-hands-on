@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Mongoose? A Guide to Object Data Modeling</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Why Mongoose?</h1>
+
+        <p class="intro">
+            Welcome to this guide on <strong>Mongoose</strong>. If you've been working with MongoDB, you might have
+            noticed how flexible it is.
+            You can store almost anything in a collection without any complaints from the database.
+            While this flexibility is powerful, it can also lead to chaos in large applications.
+            That's where Mongoose comes in.
+        </p>
+
+        <h2>1. The Problem: Unstructured Data</h2>
+        <p>
+            Using the MongoDB <strong>Native Driver</strong> is like working with a blank canvas.
+            You have total freedom, but you also have to manage everything yourself.
+            If you accidentally save a string where a number should be, MongoDB won't stop you.
+        </p>
+
+        <div class="image-container">
+            <img src="images/mongoose_vs_native.png" alt="Native Driver vs Mongoose Comparison">
+            <p><em>Left: The chaos of unstructured data. Right: The order brought by Mongoose schemas.</em></p>
+        </div>
+
+        <h2>2. The Solution: Object Data Modeling (ODM)</h2>
+        <p>
+            Mongoose is an <strong>ODM</strong> library. It acts as a bridge between your JavaScript objects and the
+            MongoDB documents.
+            It allows you to define a <strong>Schema</strong>—a blueprint for your data.
+        </p>
+
+        <div class="image-container">
+            <img src="images/odm_concept.svg" alt="ODM Concept Diagram">
+            <p><em>Mongoose acts as a bridge, translating your code objects into database documents.</em></p>
+        </div>
+
+        <div class="comparison">
+            <div class="comparison-col">
+                <h3>Native Driver Approach</h3>
+                <p>Flexible, but risky. No validation.</p>
+                <pre class="code-block">
+// Native Driver: Anything goes!
+await collection.insertOne({
+    title: "Inception",
+    year: "2010", // String! (Should be Number)
+    randomField: "I don't belong here"
+});
+</pre>
+            </div>
+            <div class="comparison-col">
+                <h3>Mongoose Approach</h3>
+                <p>Structured and safe. Enforced by Schema.</p>
+                <pre class="code-block">
+// Mongoose: Strict validation
+const movieSchema = new mongoose.Schema({
+    title: { type: String, required: true },
+    year: { type: Number, min: 1888 }
+});
+
+// This will THROW an error!
+await Movie.create({
+    title: "Inception",
+    year: "2010" // Auto-converted to Number!
+});
+</pre>
+            </div>
+        </div>
+
+        <h2>3. Pros & Cons</h2>
+        <div class="image-container">
+            <img src="images/pros_cons.png" alt="Pros and Cons of Mongoose">
+        </div>
+
+        <h3>Why use Mongoose? (Pros)</h3>
+        <ul class="pros-cons-list">
+            <li><strong>Schema Validation:</strong> Ensures your data follows a specific structure (e.g., "email" must
+                be a string, "age" must be a number).</li>
+            <li><strong>Type Casting:</strong> Automatically converts data to the correct type (e.g., converts the
+                string "123" to the number 123).</li>
+            <li><strong>Middleware (Hooks):</strong> Allows you to run code <em>before</em> or <em>after</em> saving a
+                document (great for hashing passwords!).</li>
+            <li><strong>Query Building:</strong> Provides a cleaner, more readable API for finding and filtering data.
+            </li>
+        </ul>
+
+        <h3>When to avoid it? (Cons)</h3>
+        <ul class="pros-cons-list">
+            <li><strong>Performance Overhead:</strong> The validation and abstraction add a tiny bit of overhead
+                compared to the raw driver.</li>
+            <li><strong>Learning Curve:</strong> You need to learn Mongoose-specific concepts like Schemas and Models.
+            </li>
+        </ul>
+
+        <div class="note">
+            <strong>Conclusion:</strong> For most web applications (like e-commerce, blogs, social networks), the
+            structure and safety provided by Mongoose are worth the small performance cost. Use the Native Driver only
+            if you need raw speed or have truly dynamic data structures.
+        </div>
+
+        <footer>
+            <p>Created for the Express & Mongo Hands-on Course</p>
+        </footer>
+    </div>
+</body>
+
+</html>
