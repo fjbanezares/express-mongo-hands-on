@@ -4,7 +4,7 @@
 
 ---
 
-📍 **Navegación:** [⬅️ Anterior: Módulo 5 (PostgreSQL vs MongoDB)](./05-despliegue-postgresql-vs-mongodb.md) | [🏠 Volver al README Principal](./README.md)
+📍 **Navegación:** [⬅️ Anterior: Módulo 5 (PostgreSQL vs MongoDB)](./05-despliegue-postgresql-vs-mongodb.md) | [🏠 Volver al README Principal](../README.md) | [➡️ Siguiente: Módulo 7 (PostgreSQL: Arquitectura, Esquemas y Passwords)](./07-postgresql-arquitectura-esquemas-passwords.md)
 
 ---
 
@@ -429,4 +429,4 @@ Antes de pulsar el botón de despliegue a producción, repasa esta lista de veri
 
 ---
 
-📍 **Navegación:** [⬅️ Anterior: Módulo 5 (PostgreSQL vs MongoDB)](./05-despliegue-postgresql-vs-mongodb.md) | [🏠 Volver al README Principal](./README.md)
+📍 **Navegación:** [⬅️ Anterior: Módulo 5 (PostgreSQL vs MongoDB)](./05-despliegue-postgresql-vs-mongodb.md) | [🏠 Volver al README Principal](../README.md) | [➡️ Siguiente: Módulo 7 (PostgreSQL: Arquitectura, Esquemas y Passwords)](./07-postgresql-arquitectura-esquemas-passwords.md)
