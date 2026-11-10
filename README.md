@@ -34,6 +34,8 @@ MongoDB vs SQL      CRUD y Mongoose     Docker, K8s, CI/CD  Namespaces & Redes  
 * 🛡️ **[Módulo 6: Despliegue Seguro, DevSecOps y Hardening Web](./materiales_didacticos/06-despliegue-seguro-devsecops-owasp.md)**
 * 🐘 **[Módulo 7: PostgreSQL: Arquitectura, Esquemas, Passwords e Inicialización](./materiales_didacticos/07-postgresql-arquitectura-esquemas-passwords.md)**
 * 🐬 **[Módulo 8: «La Vida de una Tarea» — Node.js, Express y MySQL (12 Infografías)](./materiales_didacticos/08-curso-maestro-todolist-mysql-infografia.md)**
+* 🍃 **[Manual Docente Especial: Clase Maestra NoSQL & MongoDB Atlas](./materiales_didacticos/mongo/CLASE_MAESTRA_MONGODB_NOSQL.md)**
+* 🐍 **[Guía Práctica de Laboratorio: MongoDB con Node.js vs Python (PyMongo & Motor)](./materiales_didacticos/mongo/theory/GUIA_PRACTICA_NODE_VS_PYTHON_MONGODB.md)**
 
 ---
 

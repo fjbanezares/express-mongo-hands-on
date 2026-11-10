@@ -5,7 +5,7 @@ const { MongoClient } = require("mongodb");
 
 // URL de conexión y base de datos
 const MONGODB_ATLAS_URI =
-    "mongodb+srv://fjbanezares:Pepito123@cluster0.n87gd.mongodb.net/?retryWrites=true&w=majority";
+    "mongodb+srv://fjbanezares:Pepito123@cluster0.n87gd.mongodb.net/";
 const DATABASE_NAME = "carDatabase";
 const COLLECTION_NAME = "cars";
 

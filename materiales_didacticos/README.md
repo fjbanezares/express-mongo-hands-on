@@ -45,6 +45,27 @@ MongoDB vs SQL      CRUD y Mongoose     Docker, K8s, CI/CD  Namespaces & Redes  
 
 ---
 
+## 🍃 Masterclass Especial NoSQL & MongoDB Atlas
+
+En la carpeta [`mongo/`](./mongo/) dispones del manual docente completo de MongoDB y tecnologías NoSQL:
+* 🎓 **[`CLASE_MAESTRA_MONGODB_NOSQL.md`](./mongo/CLASE_MAESTRA_MONGODB_NOSQL.md):**  
+  - **Teoría NoSQL:** Apache HBase (con y sin Phoenix), Apache Cassandra (CQL) y Neo4j (Cypher).
+  - **Ingeniería BSON vs JSON:** Formatos binarios, offsets de longitud, tipos enriquecidos y órdenes de magnitud.
+  - **MongoDB Atlas Cloud:** Creación de clúster M0, usuarios y la regla de red `0.0.0.0/0`.
+  - **Recorrido Código a Código:** Guía de los 8 scripts (`mongo-cars`, `mongo-movies`, `mongo-users`, etc.).
+  - **Ventajas e Inconvenientes de Mongoose** y debate arquitectónico de **Embebido vs Referenciado** (y por qué no hay `ON DELETE CASCADE` automático).
+  - **Apéndice Especial:** La paradoja del borrado en la To-Do List y la orquestación de cascada por Software.
+
+* 🐍 **[`GUIA_PRACTICA_NODE_VS_PYTHON_MONGODB.md`](./mongo/theory/GUIA_PRACTICA_NODE_VS_PYTHON_MONGODB.md):**  
+  - **Manejo de Errores:** `try / catch` en JS vs `try / except / else / finally` en Python.
+  - **Async/Await y Concurrencia:** Cómo trata la asincronía Python (`asyncio`, `motor`, Event Loop) vs Node.js (`libuv`).
+  - **Alta Disponibilidad & Replica Sets:** Primario, secundarios, quórum y elecciones automáticas.
+  - **Consistencia Eventual Modulable:** Calibración de `writeConcern` (`w: 1` vs `w: "majority"`) y `readConcern` (`local` vs `majority`).
+  - **Normalizado vs Desnormalizado (Slide 63):** `$lookup` aggregation vs lecturas embebidas $O(1)$.
+  - **Laboratorio Dual en `theory/`:** 4 pares de scripts paralelos (`node archivo.js` vs `python3 archivo.py`).
+
+---
+
 ## 🛠️ Guías Prácticas y de Resolución Técnica (MySQL)
 
 En la carpeta [`mysql_guias_apoyo/`](./mysql_guias_apoyo/) se encuentran guías de laboratorio adicionales:
