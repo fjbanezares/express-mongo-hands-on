@@ -1,0 +1,15 @@
+Haz una explicacion de la clase del otro dia en la que primero resolvimos dudas varias de joins, left joins y formas de usar git. PEro la clave es que empezamos a ver mongo para usarlo en una practica.
+Para ello instalamos todos Atlas, nos pusimos a hacer CRUD desde codigo para js ejecutado en node.js
+Pero la clave mas que estar centrados en el CRUD (di las principles formas de CRUD en mongo) que es lo mosmo que en MySQL pero varia la forma de pedirlo.
+Di que por encima de todo esta el concepto de consistencia y disponibilidad en el que mongo da mucho juego porque nos permite configurar esta balanza con los quorum entre replicas.
+Explica bien CAP que suele reducirlse hoy en dia a una balance consistencia y disponibilidad de queremos consistencia tardamos mucho mas en responder.
+El replicado hace perder velocidad y es un follon pero es lo que permite que tengamos HA en caso de algun desartre, explica esto bien.
+
+A continuacion lo que le he puesto a una alumna en la practica en la que han usado Atlas para orientar el .md
+
+
+Muy acertado el tema de la HA (High Availability) que comenté en clase, imagino que has estado mirando los apuntes de Mongo o lo has investigado en la propia App. En clase lo estuve comentando junto al concepto de Consistencia y Disponibilidad. Pero cuando hablamos de HA más que tener el dato rápido nos referimos a tenerlo  aunque haya desastres en un datacenter por estar replicado en otro datacenter. Con un misil a cada datacenter tiramos el sistema igual y ahí es interesante tener un backup. Según el valor de los datos nos interesa más o menos volvernos locos con toda esta complejidad. Y el balance Consistencia - Disponibilidad relacionado con el famoso teorema CAP es más bien la intuicióm de velocidad frente a precisión. OLTP frente a OLAP (imagino que Eva os hablará de esto si no vale la pena bucear un poco para quedarse con la idea intuitiva). Lo estuvimos echando un ojo en la última clase imagino que si me da tiempo os preparo un pequeño resumen sobre todo para los que no pudisteis venir.
+
+Me suena bastante coherente todo lo que dices y sobre todo el hecho de que te haya gustado es importante porque si la ingeniería SW te produce alguna endorfina te interesará irla cogiendo poco a poco, cosa que con la teoría que es dura no habríamos conseguido. Aquí vamos mirando las cosas segun las necesitamos, yo os oriento para que os fijeis en los conceptos clave, en este caso disponibilidad y consistencia.
+
+Poco a poco y bueno enhorabuena, ya puedes tachar algún punto de tu lista de taréas.

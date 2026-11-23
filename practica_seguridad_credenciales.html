@@ -1,0 +1,335 @@
+<!-- ============================================================================== -->
+<!-- PLANTILLA PARA CANVAS LMS: CÓPIALA DIRECTAMENTE EN EL EDITOR HTML (</>)       -->
+<!-- ============================================================================== -->
+<!-- NOTA: Diseñada con CSS 100% inline para que Canvas no elimine ningún estilo.  -->
+<!-- ============================================================================== -->
+
+<div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.7; color: #1e293b; background-color: #f8fafc; padding: 25px 15px; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05); max-width: 960px; margin: 0 auto;">
+
+  <!-- CABECERA PRINCIPAL -->
+  <div style="background: linear-gradient(135deg, #1e1b4b 0%, #312e81 40%, #4338ca 100%); color: #ffffff; padding: 35px 30px; border-radius: 12px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(67, 56, 202, 0.25);">
+    <h1 style="margin: 0 0 12px 0; font-size: 26px; font-weight: 800; color: #ffffff; letter-spacing: -0.5px;">🛡️ Práctica de Seguridad & DevOps: Gestión de Secretos, PaaS vs IaaS y Variables de Entorno en Render</h1>
+    <p style="margin: 0 0 18px 0; font-size: 15.5px; color: #e0e7ff; max-width: 820px; line-height: 1.6;">
+      Eliminación de contraseñas <em>hardcodeadas</em> en <code>awcodeAtlas.js</code>, aislamiento local en carpeta <code>credentials/</code> con <code>.gitignore</code>, inyección dinámica en <strong>Render (PaaS)</strong> y auditoría mediante <strong>Logs enmascarados</strong>.
+    </p>
+    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+      <span style="display: inline-block; padding: 5px 12px; border-radius: 20px; font-size: 12.5px; font-weight: 600; background: rgba(255, 255, 255, 0.18); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.25);">⏱️ Duración: 2 horas</span>
+      <span style="display: inline-block; padding: 5px 12px; border-radius: 20px; font-size: 12.5px; font-weight: 600; background: rgba(255, 255, 255, 0.18); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.25);">🔐 Ciberseguridad: OWASP Top 10</span>
+      <span style="display: inline-block; padding: 5px 12px; border-radius: 20px; font-size: 12.5px; font-weight: 600; background: rgba(255, 255, 255, 0.18); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.25);">☁️ Arquitectura: IaaS vs PaaS vs SaaS</span>
+      <span style="display: inline-block; padding: 5px 12px; border-radius: 20px; font-size: 12.5px; font-weight: 600; background: rgba(255, 255, 255, 0.18); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.25);">📹 Entregable: Pantallazo de Logs + Vídeo de Reflexión (2 min)</span>
+    </div>
+  </div>
+
+  <!-- INTRODUCCIÓN Y CONTEXTO -->
+  <div style="background-color: #eef2ff; border-left: 5px solid #4338ca; padding: 20px 24px; border-radius: 8px; margin-bottom: 30px; color: #1e1b4b;">
+    <div style="font-weight: 700; font-size: 16px; margin-bottom: 8px;">🚨 La Realidad del Desarrollo: Tu App Funciona, pero Está Críticamente Vulnerable</div>
+    <p style="margin: 0; font-size: 14.5px; line-height: 1.6;">
+      En la práctica anterior lograste desplegar con éxito tu backend en <strong>Render</strong> conectado a <strong>MongoDB Atlas</strong>. ¡Enhorabuena! Sin embargo, cometiste (a propósito de este laboratorio) el pecado capital número uno del desarrollo web: <strong>dejaste tu contraseña de base de datos escrita en texto plano dentro de <code>awcodeAtlas.js</code></strong>. En esta práctica aprenderás a erradicar este fallo de raíz, entenderás por qué un <strong>PaaS como Render no permite subir archivos .env por SSH</strong>, y demostrarás en los logs que tu aplicación se alimenta de variables de entorno seguras.
+    </p>
+  </div>
+
+  <!-- SECCIÓN 1: EL GRAN PELIGRO DE LAS CREDENCIALES HARDCODEADAS -->
+  <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 25px; margin-bottom: 30px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04);">
+    <div style="display: inline-block; background: #dc2626; color: #ffffff; font-weight: 800; padding: 3px 14px; border-radius: 14px; font-size: 12px; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.5px;">Sección 1</div>
+    <h2 style="color: #991b1b; font-size: 20px; margin: 0 0 10px 0; font-weight: 700;">El Gran Peligro: ¿Por qué es un desastre dejar contraseñas en el código?</h2>
+
+    <p style="font-size: 14.5px; color: #334155; margin-bottom: 15px;">
+      Cuando ejecutas <code>git push</code> con una línea como <code>mongodb+srv://usuario:Pepito123@cluster0...</code>, se desata una cadena de amenazas inmediatas:
+    </p>
+
+    <!-- TARJETAS DE CONSECUENCIAS -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-bottom: 20px;">
+      
+      <!-- Tarjeta 1 -->
+      <div style="background: #fff1f2; border: 1px solid #fecdd3; border-radius: 8px; padding: 16px;">
+        <div style="font-weight: 700; color: #9f1239; font-size: 14px; margin-bottom: 6px;">🤖 1. Rastreadores en Tiempo Real</div>
+        <div style="font-size: 13.5px; color: #4c0519; line-height: 1.5;">
+          Existen miles de bots automatizados escaneando las APIs de GitHub las 24 horas. En menos de <strong>5 segundos</strong> tras tu push, extraen tu usuario y contraseña.
+        </div>
+      </div>
+
+      <!-- Tarjeta 2 -->
+      <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 16px;">
+        <div style="font-weight: 700; color: #92400e; font-size: 14px; margin-bottom: 6px;">💸 2. Facturas de Miles de Euros</div>
+        <div style="font-size: 13.5px; color: #78350f; line-height: 1.5;">
+          Un atacante puede utilizar tu clúster o los servicios asociados para inyectar terabytes de tráfico, aprovisionar recursos o minar criptomonedas (<em>Cryptojacking</em>).
+        </div>
+      </div>
+
+      <!-- Tarjeta 3 -->
+      <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 16px;">
+        <div style="font-weight: 700; color: #1e40af; font-size: 14px; margin-bottom: 6px;">⚖️ 3. Sanciones Legales (RGPD)</div>
+        <div style="font-size: 13.5px; color: #172554; line-height: 1.5;">
+          Si te roban datos de usuarios (nombres, correos, tareas privadas), la legislación europea (RGPD / LOPD) impone multas de hasta el 4% de la facturación global o millones de euros.
+        </div>
+      </div>
+
+      <!-- Tarjeta 4 -->
+      <div style="background: #fdf4ff; border: 1px solid #f5d0fe; border-radius: 8px; padding: 16px;">
+        <div style="font-weight: 700; color: #86198f; font-size: 14px; margin-bottom: 6px;">🎭 4. Sabotaje, Defacement y Rescate</div>
+        <div style="font-size: 13.5px; color: #701a75; line-height: 1.5;">
+          Pueden borrar tus listas y pedirte Bitcoin (<em>Ransomware</em>), o inyectar "cosas feas" (insultos, pornografía o mensajes ofensivos) en tu To-Do List visible en Internet.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ALERTA SOBRE LA REGLA 0.0.0.0/0 -->
+    <div style="background-color: #fef2f2; border-left: 5px solid #dc2626; padding: 15px 18px; border-radius: 6px; color: #991b1b; font-size: 14px;">
+      <strong>⚠️ LA COMBINACIÓN EXPLOSIVA:</strong> En la práctica anterior configuramos en MongoDB Atlas la regla <strong>0.0.0.0/0</strong> (acceso desde cualquier IP del planeta). Al no haber cortafuegos de red restringido, <strong>la contraseña era la ÚNICA barrera de seguridad</strong>. Al dejarla en GitHub, le abriste la puerta de par en par a cualquiera.
+    </div>
+  </div>
+
+  <!-- SECCIÓN 2: ARQUITECTURA CLOUD - IAAS vs PAAS vs SAAS -->
+  <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 25px; margin-bottom: 30px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04);">
+    <div style="display: inline-block; background: #4338ca; color: #ffffff; font-weight: 800; padding: 3px 14px; border-radius: 14px; font-size: 12px; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.5px;">Sección 2</div>
+    <h2 style="color: #312e81; font-size: 20px; margin: 0 0 10px 0; font-weight: 700;">¿Por qué Render no tiene un archivo .env? Entendiendo IaaS, PaaS y SaaS</h2>
+
+    <p style="font-size: 14.5px; color: #334155; margin-bottom: 15px;">
+      Muchos alumnos preguntan: <em>«Profe, si en local uso un archivo .env, ¿por qué no puedo simplemente conectarme por FTP/SSH a Render y subir mi archivo .env allí?»</em> La respuesta se encuentra en el <strong>modelo de servicio cloud</strong>:
+    </p>
+
+    <!-- TABLA COMPARATIVA IAAS vs PAAS vs SAAS -->
+    <div style="overflow-x: auto; margin-bottom: 20px;">
+      <table style="width: 100%; border-collapse: collapse; font-size: 13.5px; background: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+        <thead>
+          <tr style="background: #1e1b4b; color: #ffffff; text-align: left;">
+            <th style="padding: 12px 14px;">Modelo Cloud</th>
+            <th style="padding: 12px 14px;">Ejemplos Reales</th>
+            <th style="padding: 12px 14px;">¿Qué gestionas tú?</th>
+            <th style="padding: 12px 14px;">¿Cómo se configuran los secretos?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom: 1px solid #f1f5f9;">
+            <td style="padding: 12px 14px; font-weight: 700; color: #0284c7;">🖥️ IaaS<br><span style="font-size: 11px; font-weight: normal; color: #64748b;">Infrastructure as a Service</span></td>
+            <td style="padding: 12px 14px;">AWS EC2, Google Compute Engine, Azure VMs</td>
+            <td style="padding: 12px 14px;">La máquina virtual completa, parches del SO, Nginx, Node.js y los discos persistentes.</td>
+            <td style="padding: 12px 14px;"><strong>Tienes acceso SSH</strong>: Puedes conectarte con terminal y crear físicamente el archivo <code>.env</code> en el disco de la máquina.</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #f1f5f9; background: #f8fafc;">
+            <td style="padding: 12px 14px; font-weight: 700; color: #4338ca;">🚀 PaaS (Render)<br><span style="font-size: 11px; font-weight: normal; color: #64748b;">Platform as a Service</span></td>
+            <td style="padding: 12px 14px;"><strong>Render</strong>, Heroku, Google Cloud Run, Fly.io</td>
+            <td style="padding: 12px 14px;"><strong>SOLO TU CÓDIGO</strong>. La plataforma gestiona servidores, parches, escalado, contenedores y certificados SSL.</td>
+            <td style="padding: 12px 14px;"><strong>NO hay SSH ni disco persistente</strong>. Los contenedores son efímeros. Los secretos se inyectan como <strong>Variables de Entorno</strong> desde el panel web de la plataforma.</td>
+          </tr>
+          <tr>
+            <td style="padding: 12px 14px; font-weight: 700; color: #16a34a;">📱 SaaS<br><span style="font-size: 11px; font-weight: normal; color: #64748b;">Software as a Service</span></td>
+            <td style="padding: 12px 14px;">Gmail, Trello, Jira, Google Drive, Canva</td>
+            <td style="padding: 12px 14px;"><strong>NADA</strong> técnico. Solo consumes la aplicación como usuario final a través de la web o app móvil.</td>
+            <td style="padding: 12px 14px;"><strong>¡No se hace!</strong> El usuario final no toca base de datos ni variables de entorno; el proveedor se encarga de todo internamente.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="background-color: #f0fdf4; border-left: 4px solid #16a34a; padding: 14px 18px; border-radius: 6px; color: #14532d; font-size: 14px;">
+      <strong>💡 Conclusión clave:</strong> Igual que Render ya te inyecta automáticamente la variable de entorno <code>PORT</code> para que tu servidor Express sepa en qué puerto escuchar (<code>process.env.PORT</code>), nosotros podemos crear en su panel web nuestra propia variable <code>atlas_url</code> con la cadena de conexión de MongoDB.
+    </div>
+  </div>
+
+  <!-- SECCIÓN 3: PASO A PASO DIDÁCTICO -->
+  <div style="background: #ffffff; border: 2px solid #4338ca; border-radius: 12px; padding: 25px; margin-bottom: 30px; box-shadow: 0 4px 10px rgba(67, 56, 202, 0.08);">
+    <div style="display: inline-block; background: #4338ca; color: #ffffff; font-weight: 800; padding: 3px 14px; border-radius: 14px; font-size: 12px; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.5px;">Paso a Paso</div>
+    <h2 style="color: #312e81; font-size: 20px; margin: 0 0 10px 0; font-weight: 700;">Guía Práctica: De Localhost a Render sin Exponer Contraseñas</h2>
+
+    <!-- PASO 1 -->
+    <h3 style="color: #1e293b; font-size: 16px; margin: 20px 0 6px 0; font-weight: 700;">Paso 1: Instalar la librería <code>dotenv</code> en tu proyecto</h3>
+    <p style="font-size: 14px; color: #475569; margin: 0 0 8px 0;">Abre tu terminal en la carpeta del repositorio y ejecuta:</p>
+    <pre style="background-color: #0f172a; color: #f8fafc; padding: 12px 16px; border-radius: 8px; font-family: Consolas, Monaco, monospace; font-size: 13.5px; margin: 0 0 15px 0;"><code>npm install dotenv</code></pre>
+
+    <!-- PASO 2 -->
+    <h3 style="color: #1e293b; font-size: 16px; margin: 20px 0 6px 0; font-weight: 700;">Paso 2: Crear la carpeta <code>credentials/</code> y tu archivo secreto <code>.env</code></h3>
+    <ol style="font-size: 14px; color: #334155; padding-left: 20px; margin: 0 0 10px 0;">
+      <li>Crea una carpeta llamada <strong><code>credentials</code></strong> en la raíz del proyecto.</li>
+      <li>Dentro de ella, crea un archivo llamado <strong><code>.env</code></strong> (¡con el punto delante!).</li>
+      <li>Pega tu URL de Atlas asignada a la variable <code>atlas_url</code>:</li>
+    </ol>
+    <pre style="background-color: #0f172a; color: #f8fafc; padding: 12px 16px; border-radius: 8px; font-family: Consolas, Monaco, monospace; font-size: 13.5px; margin: 0 0 15px 0;"><code># Archivo: credentials/.env (¡ESTE ARCHIVO NUNCA SE SUBE A GITHUB!)
+atlas_url=mongodb+srv://TU_USUARIO:TU_PASSWORD@cluster0.n87gd.mongodb.net/todolistDB?retryWrites=true&w=majority
+PORT=3000</code></pre>
+
+    <!-- PASO 3 -->
+    <h3 style="color: #1e293b; font-size: 16px; margin: 20px 0 6px 0; font-weight: 700;">Paso 3: Proteger el secreto con <code>.gitignore</code></h3>
+    <p style="font-size: 14px; color: #475569; margin: 0 0 8px 0;">
+      Abre el archivo <strong><code>.gitignore</code></strong> y comprueba que incluye la carpeta de credenciales:
+    </p>
+    <pre style="background-color: #0f172a; color: #f8fafc; padding: 12px 16px; border-radius: 8px; font-family: Consolas, Monaco, monospace; font-size: 13.5px; margin: 0 0 10px 0;"><code># En tu archivo .gitignore:
+credentials/.env
+credentials/*.env</code></pre>
+    <p style="font-size: 13.5px; color: #0284c7; margin: 0 0 15px 0;">
+      <strong>Prueba del algodón:</strong> Ejecuta <code>git status</code> en tu terminal. El archivo <code>credentials/.env</code> <strong>NO DEBE APARECER</strong>. Si aparece en rojo, revisa tu <code>.gitignore</code> antes de hacer commit.
+    </p>
+
+    <!-- PASO 4 -->
+    <h3 style="color: #1e293b; font-size: 16px; margin: 20px 0 6px 0; font-weight: 700;">Paso 4: Actualizar el código en <code>awcodeAtlas.js</code></h3>
+    <p style="font-size: 14px; color: #475569; margin: 0 0 8px 0;">
+      Abre [<code>awcodeAtlas.js</code>](file:///Users/fjbanezares/express-mongo-hands-on/awcodeAtlas.js) y sustituye la conexión antigua por este bloque seguro:
+    </p>
+    <pre style="background-color: #0f172a; color: #f8fafc; padding: 14px 18px; border-radius: 8px; font-family: Consolas, Monaco, monospace; font-size: 13px; line-height: 1.5; overflow-x: auto; margin: 0 0 15px 0;"><code>// 1. Cargar variables desde credentials/.env (solo en desarrollo local)
+require("dotenv").config({ path: "credentials/.env" });
+
+// 2. Extraer la URL de MongoDB desde las Variables de Entorno del sistema
+const MONGODB_ATLAS_URI = process.env.atlas_url || process.env.ATLAS_URL;
+
+// 3. Auditoría de Seguridad mediante Logs (Enmascarando contraseñas)
+console.log("============================================================");
+console.log("🔒 [AUDITORÍA DE SEGURIDAD]");
+if (MONGODB_ATLAS_URI) {
+  // Reemplaza la contraseña por asteriscos para no exponerla en pantalla
+  const maskedURI = MONGODB_ATLAS_URI.replace(/:([^:@]+)@/, ":****@");
+  console.log("✅ Variable de entorno 'atlas_url' detectada y activa.");
+  console.log("📡 Conexión segura a Atlas:", maskedURI);
+} else {
+  console.error("❌ ERROR CRÍTICO: La variable 'atlas_url' no está configurada.");
+}
+console.log("============================================================");
+
+// 4. Conectar a Mongoose
+mongoose.connect(MONGODB_ATLAS_URI, { useNewUrlParser: true, useUnifiedTopology: true });</code></pre>
+
+    <!-- PASO 5 -->
+    <h3 style="color: #1e293b; font-size: 16px; margin: 20px 0 6px 0; font-weight: 700;">Paso 5: Probar en Local y Subir a GitHub</h3>
+    <ol style="font-size: 14px; color: #334155; padding-left: 20px; margin: 0 0 10px 0;">
+      <li>Prueba en tu máquina: <code>node awcodeAtlas.js</code>. Verifica que arranca y que el log muestra la URL con <code>****</code>.</li>
+      <li>Haz commit y sube a GitHub:</li>
+    </ol>
+    <pre style="background-color: #0f172a; color: #f8fafc; padding: 12px 16px; border-radius: 8px; font-family: Consolas, Monaco, monospace; font-size: 13.5px; margin: 0 0 10px 0;"><code>git add .
+git commit -m "feat(security): aislar credenciales en variables de entorno"
+git push origin main</code></pre>
+    <p style="font-size: 13.5px; color: #16a34a; margin: 0 0 15px 0;">
+      <em>Abre tu repositorio en la web de GitHub y navega a <code>awcodeAtlas.js</code>: ¡Comprueba con orgullo que ya no hay ninguna contraseña visible!</em>
+    </p>
+
+    <!-- PASO 6 -->
+    <h3 style="color: #1e293b; font-size: 16px; margin: 20px 0 6px 0; font-weight: 700;">Paso 6: Configurar la Variable de Entorno en Render</h3>
+    <ol style="font-size: 14px; color: #334155; padding-left: 20px; margin: 0 0 15px 0;">
+      <li>Entra en tu panel de <a href="https://dashboard.render.com" target="_blank" rel="noopener" style="color: #4338ca; font-weight: 600;">dashboard.render.com</a>.</li>
+      <li>Haz clic en tu <strong>Web Service</strong>.</li>
+      <li>En el menú lateral izquierdo, haz clic en la pestaña <strong>Environment</strong>.</li>
+      <li>Pulsa en <strong>Add Environment Variable</strong>:
+        <ul style="margin-top: 5px;">
+          <li><strong>Key:</strong> <code>atlas_url</code></li>
+          <li><strong>Value:</strong> <em>(Pega tu cadena completa de Atlas: <code>mongodb+srv://usuario:password@...</code>)</em></li>
+        </ul>
+      </li>
+      <li>Pulsa el botón azul <strong>Save Changes</strong>.</li>
+    </ol>
+
+    <!-- PASO 7 -->
+    <h3 style="color: #1e293b; font-size: 16px; margin: 20px 0 6px 0; font-weight: 700;">Paso 7: Comprobar el Redespliegue y los Logs de Render</h3>
+    <p style="font-size: 14px; color: #334155; margin: 0 0 10px 0;">
+      Render detectará la nueva variable y relanzará automáticamente tu aplicación. Ve a la pestaña <strong>Logs</strong> de Render y verás:
+    </p>
+    <pre style="background-color: #022c22; color: #6ee7b7; padding: 14px 18px; border-radius: 8px; font-family: Consolas, Monaco, monospace; font-size: 13px; line-height: 1.5; margin: 0 0 15px 0;"><code>==> Starting service with 'node awcodeAtlas.js'
+============================================================
+🔒 [AUDITORÍA DE SEGURIDAD]
+✅ Variable de entorno 'atlas_url' detectada y activa.
+📡 Conexión segura a Atlas: mongodb+srv://tu_usuario:****@cluster0...
+============================================================
+Server started on port 10000
+Database connected successfully!</code></pre>
+  </div>
+
+  <!-- SECCIÓN 4: ENTREGABLES Y PREGUNTAS DE REFLEXIÓN -->
+  <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04);">
+    <div style="display: inline-block; background: #0f172a; color: #ffffff; font-weight: 800; padding: 3px 14px; border-radius: 14px; font-size: 12px; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.5px;">Entregables Obligatorios</div>
+    <h2 style="color: #0f172a; font-size: 20px; margin: 0 0 15px 0; font-weight: 700;">Evidencias de Entrega en Canvas</h2>
+
+    <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 18px; margin-bottom: 25px;">
+      <div style="font-weight: 700; color: #1e293b; font-size: 15px; margin-bottom: 8px;">📸 Entregable 1: Captura de Pantalla de los Logs de Render</div>
+      <p style="font-size: 14px; color: #475569; margin: 0; line-height: 1.5;">
+        Sube una captura de la pestaña <strong>Logs de Render</strong> donde se aprecie claramente el mensaje de auditoría: <code>✅ Variable de entorno 'atlas_url' detectada y activa.</code> con la contraseña <strong>enmascarada con asteriscos</strong> (demostrando que tu código no es el vulnerable original).
+      </p>
+    </div>
+
+    <div style="font-weight: 700; color: #1e293b; font-size: 16px; margin-bottom: 12px;">
+      📹 Entregable 2: Vídeo de Reflexión Técnica (Máximo 2 minutos)
+    </div>
+    <p style="font-size: 14px; color: #334155; margin-bottom: 18px;">
+      Graba un vídeo breve explicando cómo te has sentido al implementar esta arquitectura de seguridad y responde con tus propias palabras a las siguientes <strong>7 preguntas clave</strong> (apóyate en las pistas proporcionadas):
+    </p>
+
+    <!-- LISTA DE LAS 7 PREGUNTAS CON PISTAS -->
+    <div style="display: flex; flex-direction: column; gap: 16px;">
+
+      <!-- Pregunta 1 -->
+      <div style="background: #f8fafc; border-left: 4px solid #4338ca; padding: 14px 18px; border-radius: 6px;">
+        <div style="font-weight: 700; color: #1e1b4b; font-size: 14.5px; margin-bottom: 4px;">
+          1. ¿Por qué es crucial entender la diferencia entre IaaS y PaaS al gestionar secretos?
+        </div>
+        <div style="font-size: 13.5px; color: #475569; line-height: 1.5;">
+          <strong>💡 Pista:</strong> Compara una máquina virtual clásica (IaaS con disco fijo y acceso SSH por terminal) frente a los contenedores efímeros de Render (PaaS), que se destruyen y recrean descargando el código de GitHub (¡donde el archivo <code>.env</code> jamás debe estar!).
+        </div>
+      </div>
+
+      <!-- Pregunta 2 -->
+      <div style="background: #f8fafc; border-left: 4px solid #4338ca; padding: 14px 18px; border-radius: 6px;">
+        <div style="font-weight: 700; color: #1e1b4b; font-size: 14.5px; margin-bottom: 4px;">
+          2. ¿Cómo se configuraría este archivo de contraseñas en un modelo SaaS (Software as a Service)?
+        </div>
+        <div style="font-size: 13.5px; color: #475569; line-height: 1.5;">
+          <strong>💡 Pista:</strong> ¡Cuidado, es una pregunta trampa! En un SaaS como Gmail, Trello o Canva, el usuario final <strong>NO gestiona código ni servidores ni bases de datos</strong>. Solo consume el software. Toda la seguridad de infraestructura es 100% invisible y responsabilidad exclusiva del proveedor SaaS.
+        </div>
+      </div>
+
+      <!-- Pregunta 3 -->
+      <div style="background: #f8fafc; border-left: 4px solid #4338ca; padding: 14px 18px; border-radius: 6px;">
+        <div style="font-weight: 700; color: #1e1b4b; font-size: 14.5px; margin-bottom: 4px;">
+          3. La falacia de "lo borro en el siguiente commit": ¿Por qué sigues en peligro si borras la contraseña en un commit posterior?
+        </div>
+        <div style="font-size: 13.5px; color: #475569; line-height: 1.5;">
+          <strong>💡 Pista:</strong> Recuerda la inmutabilidad de Git. Cada commit es una foto eterna. Cualquier persona o bot puede ejecutar <code>git log -p</code> o inspeccionar el historial de commits en GitHub y ver el archivo tal como estaba antes de borrar la contraseña.
+        </div>
+      </div>
+
+      <!-- Pregunta 4 -->
+      <div style="background: #f8fafc; border-left: 4px solid #4338ca; padding: 14px 18px; border-radius: 6px;">
+        <div style="font-weight: 700; color: #1e1b4b; font-size: 14.5px; margin-bottom: 4px;">
+          4. La regla <code>0.0.0.0/0</code> frente a la contraseña: ¿Qué ocurre con la "Defensa en Profundidad"?
+        </div>
+        <div style="font-size: 13.5px; color: #475569; line-height: 1.5;">
+          <strong>💡 Pista:</strong> Al abrir el cortafuegos de Atlas a cualquier IP pública para que Render pudiera conectar, eliminamos la barrera de red perimetral. La contraseña era la ÚNICA cerradura de la casa. Si dejas la llave puesta en la puerta abierta, no te queda ninguna capa de defensa.
+        </div>
+      </div>
+
+      <!-- Pregunta 5 -->
+      <div style="background: #f8fafc; border-left: 4px solid #4338ca; padding: 14px 18px; border-radius: 6px;">
+        <div style="font-weight: 700; color: #1e1b4b; font-size: 14.5px; margin-bottom: 4px;">
+          5. ¿Por qué hacer un <code>console.log(process.env.atlas_url)</code> sin enmascarar es una vulnerabilidad grave?
+        </div>
+        <div style="font-size: 13.5px; color: #475569; line-height: 1.5;">
+          <strong>💡 Pista:</strong> En entornos reales los logs no se quedan en tu consola: se envían a plataformas centralizadas (Datadog, CloudWatch, Papertrail) donde decenas de personas tienen acceso de lectura. Si imprimes la contraseña en texto plano, vuelves a filtrarla a terceros.
+        </div>
+      </div>
+
+      <!-- Pregunta 6 -->
+      <div style="background: #f8fafc; border-left: 4px solid #4338ca; padding: 14px 18px; border-radius: 6px;">
+        <div style="font-weight: 700; color: #1e1b4b; font-size: 14.5px; margin-bottom: 4px;">
+          6. El principio de los 12 Factores: ¿Por qué separar Configuración de Código permite portabilidad total?
+        </div>
+        <div style="font-size: 13.5px; color: #475569; line-height: 1.5;">
+          <strong>💡 Pista:</strong> Si tu código solo busca <code>process.env.atlas_url</code>, el mismo archivo exacto funciona en tu portátil (apuntando a tu BD de pruebas), en staging (pre-producción) y en Render (producción) sin tener que tocar ni una sola línea de código JavaScript.
+        </div>
+      </div>
+
+      <!-- Pregunta 7 -->
+      <div style="background: #f8fafc; border-left: 4px solid #4338ca; padding: 14px 18px; border-radius: 6px;">
+        <div style="font-weight: 700; color: #1e1b4b; font-size: 14.5px; margin-bottom: 4px;">
+          7. Responsabilidad legal y económica: Si un bot roba tus claves, ¿de quién es la culpa ante la ley?
+        </div>
+        <div style="font-size: 13.5px; color: #475569; line-height: 1.5;">
+          <strong>💡 Pista:</strong> Ni MongoDB Atlas ni GitHub se hacen cargo de tus descuidos. La custodia de credenciales recae 100% sobre el titular de la cuenta. Las multas del RGPD y las facturas por abuso de recursos las paga el desarrollador o la empresa titular.
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- PIE DE PÁGINA DOCENTE -->
+  <div style="text-align: center; font-size: 13px; color: #64748b; padding-top: 15px; border-top: 1px solid #e2e8f0;">
+    🎓 Asignatura: Desarrollo Web & Cloud Computing • Módulo de Seguridad y DevOps en Node.js • Guía oficial para Canvas LMS
+  </div>
+
+</div>

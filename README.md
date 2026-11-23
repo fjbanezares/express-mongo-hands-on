@@ -36,6 +36,7 @@ MongoDB vs SQL      CRUD y Mongoose     Docker, K8s, CI/CD  Namespaces & Redes  
 * 🐬 **[Módulo 8: «La Vida de una Tarea» — Node.js, Express y MySQL (12 Infografías)](./materiales_didacticos/08-curso-maestro-todolist-mysql-infografia.md)**
 * 🍃 **[Manual Docente Especial: Clase Maestra NoSQL & MongoDB Atlas](./materiales_didacticos/mongo/CLASE_MAESTRA_MONGODB_NOSQL.md)**
 * 🐍 **[Guía Práctica de Laboratorio: MongoDB con Node.js vs Python (PyMongo & Motor)](./materiales_didacticos/mongo/theory/GUIA_PRACTICA_NODE_VS_PYTHON_MONGODB.md)**
+* 🔒 **[Manual de Seguridad: Protección de Credenciales y Variables de Entorno en Render (secure_passwd.md)](./secure_passwd.md)**
 
 ---
 
@@ -47,6 +48,7 @@ El repositorio incluye las plantillas HTML listas para importar en **Canvas LMS*
 | :--- | :--- | :--- | :--- |
 | **Práctica 1 (Semana Actual)** | [**`practica_despliegue_local.html`**](./practica_despliegue_local.html) | Despliegue Local con MySQL, resolución de puertos (`kill -9`), demostración de `INNER JOIN` vs `LEFT JOIN`, `ON DELETE CASCADE`, mejora con menú desplegable personalizado y arquitectura *Stateless*. | 📌 **Activa** |
 | **Práctica 2 (Próxima Semana)** | [**`practica_despliegue_remoto.html`**](./practica_despliegue_remoto.html) | Despliegue en la Nube con **Render** + **MongoDB Atlas**, regla de red `0.0.0.0/0`, variables de entorno (`MONGODB_URI`), prueba multidispositivo 5G y reflexión sobre DBaaS. | 🚀 **Próxima** |
+| **Práctica 3 (Ciberseguridad & DevOps)** | [**`practica_seguridad_credenciales.html`**](./practica_seguridad_credenciales.html) | Eliminación de credenciales hardcodeadas, carpeta `credentials/` con `.gitignore`, arquitectura **IaaS vs PaaS vs SaaS**, inyección de `atlas_url` en **Render**, logs enmascarados y 7 preguntas de reflexión. | 🛡️ **Seguridad** |
 
 ---
 
